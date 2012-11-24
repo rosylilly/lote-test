@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'hashr', '~> 0.0.22'
 
   gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'named_let'
 end
