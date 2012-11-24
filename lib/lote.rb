@@ -1,5 +1,10 @@
-require "lote/version"
-
 module Lote
-  # Your code goes here...
+  %w(
+    version
+    application
+    request
+    response
+  ).each do |mod|
+    require "lote/#{mod}"
+  end
 end
