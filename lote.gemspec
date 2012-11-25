@@ -19,7 +19,11 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'rack', '~> 1.4.1'
   gem.add_dependency 'hashr', '~> 0.0.22'
+  gem.add_dependency 'tilt', '~> 1.3.3'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'named_let'
+  gem.add_development_dependency 'tapp'
+  gem.add_development_dependency 'slim'
+  gem.add_development_dependency 'pry'
 end

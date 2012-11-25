@@ -1,8 +1,9 @@
+require 'logger'
 require 'lote/request'
 require 'lote/response'
 require 'lote/util'
-require 'logger'
 require 'lote/router'
+require 'lote/controller'
 
 module Lote
   class Application
@@ -20,7 +21,13 @@ module Lote
 
     class << self
       def call(env)
-        @instance ||= self.new
+        @instance ||= begin
+          instance = self.new
+          instance.define_routes!(&@routes_block) if @routes_block
+
+          instance
+        end
+
         return @instance.call(env)
       end
 
@@ -38,10 +45,27 @@ module Lote
       def root
         @root
       end
+
+      def controllers
+        Lote::Controller.controllers
+      end
+
+      def routes!(&block)
+        @routes_block = block
+      end
     end
 
     def initialize
       clear_routes!
+      auto_require!
+    end
+
+    def auto_require!
+      %i(controller_path model_path).each do |key|
+        Dir[File.join(self.class.root, config[key], '**/*.rb')].each do |file|
+          require file
+        end
+      end
     end
 
     def define_routes!(&block)
@@ -67,6 +91,23 @@ module Lote
     end
 
     def dispatch!
+      matched_route = @router.routing(
+        @request.request_method.downcase.to_sym,
+        @request.path_info
+      )
+
+
+      if matched_route
+        controller = self.class.controllers[matched_route.controller]
+        controller.new(matched_route, @request, @response).execute!
+      else
+        halt(404)
+      end
+    end
+
+    def halt(code)
+      @response.status = code
+      @response.body = ''
     end
 
     def config

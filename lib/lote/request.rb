@@ -5,7 +5,7 @@ module Lote
   module Request
     refine ::Rack::Request do
       def params
-        @hashr_params ||= Hashr.new(@params)
+        @hashr_params ||= Hashr.new(super)
       end
     end
   end
