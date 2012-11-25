@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe Lote::Router do
-  class MockRouter < Lote::Router
-  end
-
   let(:router) do
-    MockRouter.new do
+    Lote::Router.new do
       get '/', 'home#index'
       post 'user', 'user#create'
       get 'user/:id', 'user#show', id: /\d+/

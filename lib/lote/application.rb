@@ -20,6 +20,15 @@ module Lote
     end
 
     def initialize
+      clear_routes!
+    end
+
+    def define_routes!(&block)
+      @router.define!(&block)
+    end
+
+    def clear_routes!
+      @router = Router.new
     end
 
     def call(env)
