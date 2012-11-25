@@ -1,6 +1,7 @@
 require 'lote/request'
 require 'lote/response'
 require 'lote/util'
+require 'lote/router'
 
 module Lote
   class Application
@@ -26,9 +27,12 @@ module Lote
       @request = Rack::Request.new(@env)
       @response = Rack::Response.new
 
-      @response.body = 'testing'
+      dispatch!
 
       return @response.finish
+    end
+
+    def dispatch!
     end
   end
 end

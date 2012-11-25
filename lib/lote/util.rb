@@ -31,6 +31,10 @@ module Lote
           "_#{char[-1].downcase}"
         end
       end
+
+      def url_split
+        self.split('/').reject(&:empty?)
+      end
     end
   end
 end

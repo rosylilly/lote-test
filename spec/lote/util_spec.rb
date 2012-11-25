@@ -73,5 +73,12 @@ describe Lote::Util do
         subject.object_id.should == string.object_id
       }
     end
+
+    describe '#url_split' do
+      let(:string) { '/hello/say/fantastic.xml' }
+      subject { string.url_split }
+
+      it { should == %w(hello say fantastic.xml) }
+    end
   end
 end
